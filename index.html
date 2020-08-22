@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <title>Kuleczki</title>
+    <link rel="stylesheet" href="./style/main.css" />
+  </head>
+  <body>
+    <div id="canvas-div"></div>
+    <div class="stats">
+      <div class="settings_title">Statystyki</div>
+      <div class="options">
+        <div class="option">
+          <div class="option_title">Czas trwania symulacji</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="timeElapsed"
+              type="text"
+              value="00:00:00"
+              disabled
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Ilość odbić</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="hitCount"
+              type="text"
+              value="0"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings">
+      <div class="settings_title">Ustawienia projektu</div>
+      <div class="options">
+        <div class="option">
+          <div class="option_title">Liczba "atomów" [N]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="particle_amount"
+              type="number"
+              value="10"
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Eta H [&eta;H]</div>
+          <div class="option_input_container">
+            <input class="option_input" id="eta_h" type="number" value="30" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Eta L [&eta;L]</div>
+          <div class="option_input_container">
+            <input class="option_input" id="eta_l" type="number" value="30" />
+          </div>
+        </div>
+      </div>
+      <div class="control_buttons">
+        <button id="start-simulation">Start!</button>
+        <button id="stop-simulation">Stop!</button>
+        <button id="pause-simulation">Pause!</button>
+      </div>
+    </div>
+    <script src="src/dom.js"></script>
+    <script src="src/simulation.js"></script>
+    <script src="src/utils.js"></script>
+    <script src="src/vector.js"></script>
+    <script src="src/particle.js"></script>
+    <script src="src/special.js"></script>
+    <script src="src/app.js"></script>
+  </body>
+</html>
