@@ -13,14 +13,78 @@
       <div class="settings_title">Statystyki</div>
       <div class="options">
         <div class="option">
-          <div class="option_title">Czas trwania symulacji</div>
+          <div class="option_title">Pozostała liczba kroków</div>
           <div class="option_input_container">
             <input
               class="option_input"
-              id="timeElapsed"
+              id="time_elapsed"
               type="text"
-              value="00:00:00"
+              value="10000"
               disabled
+            />
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="option_title">Prędkość maksymalna [V]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="max_velocity"
+              type="text"
+              value="3.000"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="option">
+          <div class="option_title">Rozmiar naczynia [H,L]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="container_size"
+              type="text"
+              disabled
+              value="200"
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Promień cząstki [R]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="particle_radius"
+              type="text"
+              disabled
+              value="5"
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">
+            Aktualna droga swobodna [&#955;<sub>i</sub>]
+          </div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="curr_free_path"
+              type="text"
+              disabled
+              value="-"
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Średnia droga swobodna [&#955;]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="average_path"
+              type="text"
+              disabled
+              value="-"
             />
           </div>
         </div>
@@ -29,10 +93,22 @@
           <div class="option_input_container">
             <input
               class="option_input"
-              id="hitCount"
+              id="hit_count"
               type="text"
-              value="0"
+              value="-"
               disabled
+            />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Częstość zderzeń [n]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="hits_per_time"
+              type="text"
+              disabled
+              value="-"
             />
           </div>
         </div>
@@ -49,20 +125,31 @@
               class="option_input"
               id="particle_amount"
               type="number"
-              value="10"
+              value="100"
             />
           </div>
         </div>
         <div class="option">
           <div class="option_title">Eta H [&eta;H]</div>
           <div class="option_input_container">
-            <input class="option_input" id="eta_h" type="number" value="30" />
+            <input class="option_input" id="eta_h" type="number" value="20" />
           </div>
         </div>
         <div class="option">
           <div class="option_title">Eta L [&eta;L]</div>
           <div class="option_input_container">
-            <input class="option_input" id="eta_l" type="number" value="30" />
+            <input class="option_input" id="eta_l" type="number" value="20" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="option_title">Liczba kroków [M]</div>
+          <div class="option_input_container">
+            <input
+              class="option_input"
+              id="frames"
+              type="number"
+              value="10000"
+            />
           </div>
         </div>
       </div>
@@ -73,7 +160,7 @@
       </div>
     </div>
     <script src="src/dom.js"></script>
-    <script src="src/simulation.js"></script>
+    <script src="src/simulation2.js"></script>
     <script src="src/utils.js"></script>
     <script src="src/vector.js"></script>
     <script src="src/particle.js"></script>

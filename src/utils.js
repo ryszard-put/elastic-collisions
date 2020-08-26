@@ -1,7 +1,4 @@
 function rand(min, max) {
-  // <min, max) floating
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.random() * (max - min) + min;
 }
 
@@ -17,26 +14,25 @@ function timeFromFrames({ frameRate, frames }) {
 }
 
 function createRandomParticle() {
-  let px = rand(
-    environment.standardRadius,
-    screen.availableSize - environment.standardRadius
-  );
-  let py = rand(
-    environment.standardRadius,
-    screen.availableSize - environment.standardRadius
-  );
-  let vx = rand(-environment.maxParticleSpeed, environment.maxParticleSpeed);
-  let vy = rand(-environment.maxParticleSpeed, environment.maxParticleSpeed);
+  let px = rand(simulation.radius, screen.availableSize - simulation.radius);
+  let py = rand(simulation.radius, screen.availableSize - simulation.radius);
+  let vx = rand(-simulation.maxVelocity, simulation.maxVelocity);
+  let vy = rand(-simulation.maxVelocity, simulation.maxVelocity);
   let particle = new Particle(px, py, vx, vy);
   return particle;
 }
 
 function createSpecialParticle() {
-  let px = environment.standardRadius;
-  let py = environment.standardRadius;
+  let px = simulation.radius;
+  let py = simulation.radius;
 
-  let vx = rand(0, environment.maxParticleSpeed);
-  let vy = rand(0, environment.maxParticleSpeed);
+  // let vx = rand(0, simulation.maxVelocity);
+  // let vy = rand(0, simulation.maxVelocity);
+  let vx = (vy = simulation.maxVelocity);
   let particle = new Special(px, py, vx, vy);
   return particle;
+}
+
+function pixelsToSpecialUnits(pixels) {
+  return (pixels / screen.availableSize) * dom.containerSize;
 }

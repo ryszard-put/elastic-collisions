@@ -7,12 +7,13 @@ class Simulation {
     // Ustawienia projektu
     this.particles = [];
     this.mass = 1;
-    this.maxVelocity = 2;
+    this.maxVelocity = null;
     this.particleAmount = null;
-    this.baseRadius = 5;
+    this.radius = null;
     this.scale = 1;
     this.eta = null;
     this.m = null;
+    this.initialM = null;
   }
 
   pause() {
@@ -33,17 +34,20 @@ class Simulation {
 
   start() {
     this.running = true;
+    this.radius = screen.availableSize / 40 / this.scale;
     this.particles.push(createSpecialParticle());
+    let newParticle;
     for (let i = 0; i < this.particleAmount; i++) {
+      do {
         newParticle = createRandomParticle();
         if (
           !this.particles.filter((particle) => newParticle.collision(particle))
             .length
-        ) {
+        )
           break;
       } while (true);
       this.particles.push(newParticle);
     }
-  }
     dom.toggleLockdown();
   }
+}

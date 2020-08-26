@@ -1,78 +1,118 @@
-const startButton = document.querySelector('.settings #start-simulation');
-const pauseButton = document.querySelector('.settings #pause-simulation');
-const stopButton = document.querySelector('.settings #stop-simulation');
+class DOM {
+  constructor() {
+    // Settings
 
-const optionInputs = document.querySelectorAll('.settings .option_input');
+    this.startButton = document.querySelector('.settings #start-simulation');
+    this.pauseButton = document.querySelector('.settings #pause-simulation');
+    this.stopButton = document.querySelector('.settings #stop-simulation');
 
-const n = document.querySelector('.settings #particle_amount');
+    this.optionInputs = document.querySelectorAll('.settings .option_input');
 
-const etas = [
-  document.querySelector('.settings #eta_h'),
-  document.querySelector('.settings #eta_l'),
-];
+    this.particleAmount = document.querySelector('.settings #particle_amount');
+    this.frameAmount = document.querySelector('.settings #frames');
 
-etas.forEach((eta) => {
-  eta.addEventListener('input', (e) => {
-    etas[0].value = Math.floor(Math.max(20, +e.target.value));
-    etas[1].value = Math.floor(Math.max(20, +e.target.value));
-    n.value = Math.floor(
-      Math.max(0, Math.min(+n.value, (+e.target.value) ** 2 / 4))
+    this.etaH = document.querySelector('.settings #eta_h');
+    this.etaL = document.querySelector('.settings #eta_l');
+
+    // Stats
+
+    this.maxVelocity = document.querySelector('.stats #max_velocity');
+    this.timeElapsed = document.querySelector('.stats #time_elapsed');
+    this.hitCount = document.querySelector('.stats #hit_count');
+    this.averagePath = document.querySelector('.stats #average_path');
+    this.containerSize = document.querySelector('.stats #container_size');
+    this.hitsPerTime = document.querySelector('.stats #hits_per_time');
+    this.currentFreePath = document.querySelector('.stats #curr_free_path');
+
+    // Listeners
+
+    this.startButton.addEventListener('click', () => {
+      this.updateToScale(+this.etaH.value / 20);
+      simulation.start();
+    });
+
+    this.stopButton.addEventListener('click', () => simulation.stop());
+
+    this.pauseButton.addEventListener('click', () => simulation.pause());
+
+    this.particleAmount.addEventListener('input', () =>
+      this.updateToScale(+this.etaH.value / 20)
     );
-  });
-});
 
-n.addEventListener(
-  'input',
-  () =>
-    (n.value = Math.floor(
-      Math.max(0, Math.min(+n.value, (+etas[0].value) ** 2 / 4))
-    ))
-);
+    this.frameAmount.addEventListener(
+      'input',
+      (e) => (e.target.value = Math.max(10, +e.target.value))
+    );
 
-window.addEventListener(
-  'keypress',
-  (e) => e.code === 'Space' && simulation.pause()
-);
+    // Sync of etas etc
+    [this.etaH, this.etaL].forEach((eta) => {
+      eta.addEventListener('input', (e) =>
+        this.updateToScale(+e.target.value / 20)
+      );
+    });
 
-startButton.addEventListener('click', () => {
-  simulation.start({
-    amount: +document.querySelector('.settings #particle_amount').value,
-    eta: +document.querySelector('.settings #eta_h').value,
-  });
-
-  optionInputs.forEach((input) => (input.disabled = true));
-});
-
-stopButton.addEventListener('click', () => {
-  simulation.stop();
-  optionInputs.forEach((input) => (input.disabled = false));
-});
-
-pauseButton.addEventListener('click', () => simulation.pause());
-
-function updateInterface() {
-  if (simulation.running) {
-    startButton.disabled = true;
-    pauseButton.disabled = false;
-    stopButton.disabled = false;
-  } else {
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-    stopButton.disabled = true;
+    // Pause on space
+    window.addEventListener(
+      'keypress',
+      (e) => e.code === 'Space' && simulation.pause()
+    );
   }
-}
 
-function updateMeta() {
-  // Update Time
-  let { seconds, minutes, hours } = timeFromFrames({
-    frameRate: simulation.frameRate,
-    frames: simulation.framesElapsed,
-  });
-  document.querySelector('#timeElapsed').value = `${String(hours).padStart(
-    2,
-    '0'
-  )}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  toggleLockdown() {
+    if (simulation.running) {
+      this.startButton.disabled = true;
+      this.pauseButton.disabled = false;
+      this.stopButton.disabled = false;
+      this.optionInputs.forEach((input) => (input.disabled = true));
+    } else {
+      this.startButton.disabled = false;
+      this.pauseButton.disabled = true;
+      this.stopButton.disabled = true;
+      this.optionInputs.forEach((input) => (input.disabled = false));
+    }
+  }
 
-  // Update Hit Count
-  document.querySelector('#hitCount').value = environment.particles[0].hitCount;
+  updateToScale(scale) {
+    // Update Simulation and DOM on eta change
+
+    scale = Math.max(1, scale);
+    let eta = scale * 20;
+    let velocity = simulation.frameRate / eta;
+    let containerSize = scale * 200;
+    let particleAmount = Math.floor(
+      Math.max(0, Math.min(+this.particleAmount.value, eta ** 2 / 4))
+    );
+
+    // update DOM
+    this.etaH.value = eta;
+    this.etaL.value = eta;
+    this.particleAmount.value = particleAmount;
+    this.maxVelocity.value = velocity.toFixed(4);
+    this.containerSize = containerSize;
+
+    // update Simulation
+    simulation.scale = scale;
+    simulation.maxVelocity = velocity;
+    simulation.particleAmount = particleAmount;
+    simulation.eta = eta;
+    simulation.m = +this.frameAmount.value;
+    simulation.initialM = +this.frameAmount.value;
+  }
+
+  updateStats() {
+    // Update DOM each Frame
+    this.hitsPerTime.value =
+      (
+        simulation.particles[0].hitCount /
+        ((simulation.initialM - simulation.m) / simulation.frameRate)
+      ).toFixed(4) || '-';
+    this.timeElapsed.value = `${simulation.m - 1} (${(
+      (simulation.m - 1) /
+      simulation.frameRate
+    ).toFixed(1)})`;
+    this.hitCount.value = simulation.particles[0].hitCount;
+    this.averagePath.value = simulation.particles[0].averagePath
+      ? simulation.particles[0].averagePath.toFixed(4)
+      : '-';
+  }
 }

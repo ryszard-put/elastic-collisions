@@ -2,8 +2,8 @@ class Particle {
   constructor(px, py, vx, vy) {
     this.position = new Vector(px, py); // wektor położenia
     this.velocity = new Vector(vx, vy); // wektor prędkości
-    this.mass = environment.mass;
-    this.radius = environment.standardRadius;
+    this.mass = simulation.mass;
+    this.radius = simulation.radius;
     this.color = color(0, 0, 255);
   }
 
@@ -15,12 +15,14 @@ class Particle {
   }
 
   update(particles, start) {
-    // Odbicie z atomami
-    this.colideWithAtoms(particles, start);
     // Odbicia ze ścianami
     this.colideWithWalls();
+    // Odbicie z atomami
+    this.colideWithAtoms(particles, start);
     // Aktualizacja pozycji
-    this.position.add(this.velocity);
+    this.position.add(
+      this.velocity.copy().multiplyScalar(1 / simulation.scale)
+    );
     return this;
   }
 
@@ -64,8 +66,16 @@ class Particle {
             res.y * (other.position.y - this.position.y) >=
           0
         ) {
-          if (this instanceof Special) this.countAHit();
-          if (other instanceof Special) other.countAHit();
+          if (this instanceof Special) {
+            this.countAHit();
+            this.paths.push(this.path);
+            this.path = 0;
+          }
+          if (other instanceof Special) {
+            other.countAHit();
+            other.paths.push(other.path);
+            other.path = 0;
+          }
           let parallelAxisA = new Vector(
             other.position.x - this.position.x,
             other.position.y - this.position.y
@@ -95,19 +105,16 @@ class Particle {
   }
 
   collision(particle) {
-    return (
-      this.position.distanceTo(particle.position) <=
-      2 * environment.standardRadius + environment.collisionTolerance
-    );
+    return this.position.distanceTo(particle.position) <= 2 * simulation.radius;
   }
 }
 
-function myRotate(v, theta) {
-  return new Vector(
-    v.x * Math.cos(theta) - v.y * Math.sin(theta),
-    v.x * Math.sin(theta) + v.y * Math.cos(theta)
-  );
-}
+// function myRotate(v, theta) {
+//   return new Vector(
+//     v.x * Math.cos(theta) - v.y * Math.sin(theta),
+//     v.x * Math.sin(theta) + v.y * Math.cos(theta)
+//   );
+// }
 
 // NIE MOJE
 //collison code goes here
