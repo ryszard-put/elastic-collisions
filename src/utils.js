@@ -26,10 +26,10 @@ function createSpecialParticle() {
   let px = simulation.radius;
   let py = simulation.radius;
 
-  // let vx = rand(0, simulation.maxVelocity);
-  // let vy = rand(0, simulation.maxVelocity);
-  let vx = simulation.maxVelocity;
-  let vy = 0;
+  let vx = rand(0, simulation.maxVelocity);
+  let vy = rand(0, simulation.maxVelocity);
+  // let vx = simulation.maxVelocity;
+  // let vy = 0;
   let particle = new Special(px, py, vx, vy);
   return particle;
 }
