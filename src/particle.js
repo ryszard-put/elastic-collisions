@@ -20,9 +20,7 @@ class Particle {
     // Odbicie z atomami
     this.colideWithAtoms(particles, start);
     // Aktualizacja pozycji
-    this.position.add(
-      this.velocity.copy().multiplyScalar(1 / simulation.scale)
-    );
+    this.position.add(this.velocity);
     return this;
   }
 

@@ -31,7 +31,7 @@ function draw() {
     simulation.m--;
     if (!simulation.m) {
       simulation.stop();
-      dom.optionInputs.forEach((input) => (input.disabled = !input.disabled));
+      dom.toggleLockdown();
     }
   }
 

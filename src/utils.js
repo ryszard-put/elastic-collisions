@@ -28,11 +28,12 @@ function createSpecialParticle() {
 
   // let vx = rand(0, simulation.maxVelocity);
   // let vy = rand(0, simulation.maxVelocity);
-  let vx = (vy = simulation.maxVelocity);
+  let vx = simulation.maxVelocity;
+  let vy = 0;
   let particle = new Special(px, py, vx, vy);
   return particle;
 }
 
 function pixelsToSpecialUnits(pixels) {
-  return (pixels / screen.availableSize) * dom.containerSize;
+  return (pixels / screen.availableSize) * dom.containerSize.value;
 }

@@ -75,7 +75,7 @@ class DOM {
   updateToScale(scale) {
     // Update Simulation and DOM on eta change
 
-    scale = Math.max(1, scale);
+    scale = scale >= 5 ? 5 : Math.max(1, scale);
     let eta = scale * 20;
     let velocity = simulation.frameRate / eta;
     let containerSize = scale * 200;
@@ -88,7 +88,7 @@ class DOM {
     this.etaL.value = eta;
     this.particleAmount.value = particleAmount;
     this.maxVelocity.value = velocity.toFixed(4);
-    this.containerSize = containerSize;
+    this.containerSize.value = containerSize.toFixed(0);
 
     // update Simulation
     simulation.scale = scale;
@@ -111,8 +111,12 @@ class DOM {
       simulation.frameRate
     ).toFixed(1)})`;
     this.hitCount.value = simulation.particles[0].hitCount;
-    this.averagePath.value = simulation.particles[0].averagePath
-      ? simulation.particles[0].averagePath.toFixed(4)
+    this.averagePath.value = !simulation.particles[0].paths.length
+      ? simulation.particles[0].path.toFixed(2)
+      : simulation.particles[0].averagePath
+      ? simulation.particles[0].averagePath.toFixed(2)
       : '-';
+
+    this.currentFreePath.value = simulation.particles[0].path.toFixed(2);
   }
 }

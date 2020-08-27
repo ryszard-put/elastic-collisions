@@ -22,7 +22,8 @@ class Special extends Particle {
     this.colideWithAtoms(particles, start);
     // Aktualizacja pozycji
     this.position.add(
-      this.velocity.copy().multiplyScalar(1 / simulation.scale)
+      // this.velocity.copy().multiplyScalar(1 / simulation.scale)
+      this.velocity
     );
 
     // this.path += this.velocity.getMagnitude();
