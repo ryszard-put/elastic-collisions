@@ -14,6 +14,7 @@ class Simulation {
     this.eta = null;
     this.m = null;
     this.initialM = null;
+    this.tolerance = null;
   }
 
   pause() {
@@ -35,6 +36,7 @@ class Simulation {
   start() {
     this.running = true;
     this.radius = screen.availableSize / 40 / this.scale;
+    this.tolerance = this.radius / 10;
     this.particles.push(createSpecialParticle());
     let newParticle;
     for (let i = 0; i < this.particleAmount; i++) {

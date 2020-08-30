@@ -25,19 +25,25 @@ class Particle {
   }
 
   colideWithWalls() {
-    if (this.position.x + this.radius >= screen.availableSize) {
+    if (
+      this.position.x + this.radius - simulation.tolerance >=
+      screen.availableSize
+    ) {
       this.position.x = screen.availableSize - this.radius;
       this.velocity.x *= -1;
     }
-    if (this.position.x - this.radius < 0) {
+    if (this.position.x - this.radius + simulation.tolerance < 0) {
       this.position.x = this.radius;
       this.velocity.x *= -1;
     }
-    if (this.position.y + this.radius >= screen.availableSize) {
+    if (
+      this.position.y + this.radius - simulation.tolerance >=
+      screen.availableSize
+    ) {
       this.position.y = screen.availableSize - this.radius;
       this.velocity.y *= -1;
     }
-    if (this.position.y - this.radius < 0) {
+    if (this.position.y - this.radius + simulation.tolerance < 0) {
       this.position.y = this.radius;
       this.velocity.y *= -1;
     }
@@ -103,52 +109,9 @@ class Particle {
   }
 
   collision(particle) {
-    return this.position.distanceTo(particle.position) <= 2 * simulation.radius;
+    return (
+      this.position.distanceTo(particle.position) <=
+      2 * simulation.radius + simulation.tolerance
+    );
   }
 }
-
-// function myRotate(v, theta) {
-//   return new Vector(
-//     v.x * Math.cos(theta) - v.y * Math.sin(theta),
-//     v.x * Math.sin(theta) + v.y * Math.cos(theta)
-//   );
-// }
-
-// NIE MOJE
-//collison code goes here
-// let res = [
-//   this.velocity.x - other.velocity.x,
-//   this.velocity.y - other.velocity.y,
-// ];
-// if (
-//   res[0] * (other.position.x - this.position.x) +
-//     res[1] * (other.position.y - this.position.y) >=
-//   0
-// ) {
-//   let m1 = this.mass;
-//   let m2 = other.mass;
-//   let theta = -Math.atan2(
-//     other.position.y - this.position.y,
-//     other.position.x - this.position.x
-//   );
-//   let v1 = myRotate(this.velocity, theta);
-//   let v2 = myRotate(other.velocity, theta);
-//   let u1 = myRotate(
-//     new Vector(
-//       (v1.x * (m1 - m2)) / (m1 + m2) + (v2.x * 2 * m2) / (m1 + m2),
-//       v1.y
-//     ),
-//     -theta
-//   );
-//   let u2 = myRotate(
-//     new Vector(
-//       (v2.x * (m2 - m1)) / (m1 + m2) + (v1.x * 2 * m1) / (m1 + m2),
-//       v2.y
-//     ),
-//     -theta
-//   );
-//   this.velocity.x = u1.x;
-//   this.velocity.y = u1.y;
-//   other.velocity.x = u2.x;
-//   other.velocity.y = u2.y;
-// }
