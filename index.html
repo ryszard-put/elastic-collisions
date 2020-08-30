@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <title>Kuleczki</title>
-    <link rel="stylesheet" href="./style/main.css" />
+    <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
     <div id="canvas-div"></div>
@@ -119,7 +119,7 @@
       <div class="settings_title">Ustawienia projektu</div>
       <div class="options">
         <div class="option">
-          <div class="option_title">Liczba "atomów" [N]</div>
+          <div class="option_title">Liczba cząstek [N]</div>
           <div class="option_input_container">
             <input
               class="option_input"
@@ -130,13 +130,13 @@
           </div>
         </div>
         <div class="option">
-          <div class="option_title">Eta H [&eta;H]</div>
+          <div class="option_title">Eta H [&eta;<sub>H</sub>]</div>
           <div class="option_input_container">
             <input class="option_input" id="eta_h" type="number" value="20" />
           </div>
         </div>
         <div class="option">
-          <div class="option_title">Eta L [&eta;L]</div>
+          <div class="option_title">Eta L [&eta;<sub>L</sub>]</div>
           <div class="option_input_container">
             <input class="option_input" id="eta_l" type="number" value="20" />
           </div>
@@ -159,12 +159,12 @@
         <button id="pause-simulation">Pause!</button>
       </div>
     </div>
-    <script src="src/dom.js"></script>
-    <script src="src/simulation2.js"></script>
-    <script src="src/utils.js"></script>
-    <script src="src/vector.js"></script>
-    <script src="src/particle.js"></script>
-    <script src="src/special.js"></script>
-    <script src="src/app.js"></script>
+    <script src="dom.js"></script>
+    <script src="simulation2.js"></script>
+    <script src="utils.js"></script>
+    <script src="vector.js"></script>
+    <script src="particle.js"></script>
+    <script src="special.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
