@@ -75,7 +75,8 @@ class DOM {
   updateToScale(scale) {
     // Update Simulation and DOM on eta change
 
-    scale = scale >= 5 ? 5 : Math.max(1, scale);
+    // scale = scale >= 5 ? 5 : Math.max(1, scale);
+    scale = Math.min(5, Math.max(1, scale));
     let eta = scale * 20;
     let velocity = simulation.frameRate / eta;
     let containerSize = scale * 200;
